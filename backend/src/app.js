@@ -1,8 +1,11 @@
 const express =  require("express")
+const cookieParser = require("cookie-parser")
 
-app = express()
+
+const app = express()
 
 app.use(express.json())
+app.use(cookieParser())
 
 
 

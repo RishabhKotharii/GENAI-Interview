@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-const { required } = require('zod/mini');
 
 const blacklistTokenSchema = new mongoose.Schema({
     token:{
@@ -13,4 +12,4 @@ const blacklistTokenSchema = new mongoose.Schema({
 
 const tokenBlacklistModel = mongoose.model("blacklistTokens",blacklistTokenSchema)
 
-module.exports = tokenBlacklistModel 
+module.exports = tokenBlacklistModel    

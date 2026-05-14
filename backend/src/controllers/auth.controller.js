@@ -96,16 +96,48 @@ async function loginUserController(req, res) {
   });
 }
 
+/**
+ * 
+ * @name logoutUserController 
+ * @desciption clear token from user cookie and add the token in blacklist
+ * @access public 
+ */
 async function logoutUserController(req,res) {
-const token = req.cookies.token
 
-if(token){
-  await tokenBlacklistModel.create({token})
+  const token = req.cookies?.token;
+
+  console.log("TOKEN:", token);
+
+  if(token){
+
+    const savedToken = await tokenBlacklistModel.create({ token });
+
+    console.log("SAVED TOKEN:", savedToken);
+  }
+
+  res.clearCookie("token");
+
+  res.status(200).json({
+    message:"User logged out successfully."
+  });
 }
-res.clearCookie("token")
-res.status(200).json({
-  message:"User logged out successfully."
-})
-  
+
+/**
+ *@name getMeController
+ *@description get the current user details
+ *@access private 
+ */
+async function getMeController(req,res){
+
+  const user = await userModel.findById(req.user.id)
+
+  res.status(200).json({
+    message:"User details fetched successfully",
+    user:{
+      id: user._id,
+      username: user.username,
+      email: user.email
+    }
+  })
 }
-module.exports = { registerUserController, loginUserController , logoutUserController};
+module.exports = { registerUserController, loginUserController , logoutUserController, getMeController};
